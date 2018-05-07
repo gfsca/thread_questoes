@@ -5,7 +5,7 @@
 
 int quantidade_jogadores;
 int quantidade_rodadas;
-int jogada[quantidade_jogadores];
+int jogada[100];
 
 pthread_barrier_t barrier;
 
@@ -21,10 +21,10 @@ void *pedra_papel_tesoura(void *threadid){
 
 
 //Printando Rodada
-void printar_rodada(){
+/*void printar_rodada(){
 
 		printf("Rodada: %d\n", i);
-		for (int j = 0; j < quantidade.jogadores; ++j){
+		for (int j = 0; j < quantidade_jogadores; ++j){
 			if (jogada[j] == 0)
 				printf("Jogador %d: Pedra\n", j);
 			if (jogada[j] == 1)
@@ -34,7 +34,7 @@ void printar_rodada(){
 		}
 		printf("\n\n");
 }
-
+*/
 
 int randomize(){ // função retorna um número aleatório que vai até RAND_MAX, usar % para limitar seu range.
     srand((unsigned)time(NULL));
@@ -47,7 +47,7 @@ int main(){
 	scanf("%d", &quantidade_jogadores);
 	printf("Digite a quantidade de rodadas \n");
 	scanf("%d", &quantidade_rodadas);
-	
+
 	pthread_t thread[quantidade_jogadores];
 	int *taskids[quantidade_jogadores];
 	int rc;
@@ -76,6 +76,8 @@ int main(){
 
 	//Liberando Thread
 	pthread_exit(NULL);
+
+	printf("Funcionou krai e arthur eh viado\n");
 	
 	return 0;
 }
