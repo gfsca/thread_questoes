@@ -3,33 +3,44 @@
 #include <pthread.h>
 #include <time.h>
 
-int nPorEstacao[5] = {0, 0, 0, 0, 0};
+int nPorEstacao[5] = {0, 0, 0, 0, 0}, cursor = 0;
+pthread_mutex_t estacao[5];
+pthread_cond_t cheio[5];
+pthread_cond_t vazio[5];
+for(j = 0; j < 5; j++){
+	pthread_mutex_t estacao[i] = PTHREAD_MUTEX_INITIALIZER;
+	pthread_cond_t cheio[i] = PTHREAD_COND_INITIALIZER;
+	pthread_cond_t vazio[i] = PTHREAD_COND_INITIALIZER;
+}
 
-void *taxi()
+void *taxi(void *id)
 {
-	int i;
+	pthread_mutex_lock(estacao[i])
 	while(1){
-		for(i = 0; i < 5;){
-			if(nPorEstacao[i] < 2){
-				nPorEstacao[i]++;
-				//bota a thread para esperar
-				nPorEstacao[i]--;
+		if(nPorEstacao[cursor] < 2){
+			nPorEstacao[cursor]++;
+			//bota a thread para esperar
+			nPorEstacao[cursor]--;
+		}else{
+			if(cursor == 4){
+				if(nPorEstacao[cursor] > 1){
+					cursor = 0;
+				}
 			}else{
-				i++;
+				cursor++;
 			}
 		}
 	}
 }
 
 int main(){
-	int i;
 	pthread_t tx[10];
 	pthread_mutex_t estacao[5];
-	for(i = 0; i < 5; i++){
-		pthread_mutex_t estacao[i] = PTHREAD_MUTEX_INITIALIZER;
-	}
+	int *id[10], i;
 	for(i = 0; i < 10; i++){
-		int rc = pthread_create(&d[i], NULL, taxi, NULL);
+		id[i] = (int *) malloc(sizeof(int));
+		*id[i] = i;
+		pthread_create(&tx[i], NULL, taxi, (void *) id[i]);
 	}
 	pthread_exit(NULL);
 }
