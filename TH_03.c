@@ -19,23 +19,6 @@ void *pedra_papel_tesoura(void *threadid){
 	pthread_exit(NULL);
 }
 
-
-//Printando Rodada
-/*void printar_rodada(){
-
-		printf("Rodada: %d\n", i);
-		for (int j = 0; j < quantidade_jogadores; ++j){
-			if (jogada[j] == 0)
-				printf("Jogador %d: Pedra\n", j);
-			if (jogada[j] == 1)
-				printf("Jogador %d: Papel\n", j);
-			if (jogada[j] == 2)
-				printf("Jogador %d: Tesoura\n", j);
-		}
-		printf("\n\n");
-}
-*/
-
 int randomize(){ // função retorna um número aleatório que vai até RAND_MAX, usar % para limitar seu range.
     srand((unsigned)time(NULL));
     return rand();
@@ -77,7 +60,6 @@ int main(){
 	//Liberando Thread
 	pthread_exit(NULL);
 
-	printf("Funcionou krai e arthur eh viado\n");
 	
 	return 0;
 }
