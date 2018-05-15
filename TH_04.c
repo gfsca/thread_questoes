@@ -8,15 +8,16 @@ pthread_mutex_t estacao[5];
 
 void *taxi(void *id)
 {
-	pthread_mutex_lock(estacao[cursor]);
-	int tid = *((int *)id);
+	pthread_mutex_lock(&estacao[cursor]);
+	long tid = *((long *)id);
 	while(1){
 		if(nPorEstacao[cursor] < 2){
 			estTx[tid] = cursor;
 			nPorEstacao[cursor]++;
-			pthread_mutex_unlock(estacao[estTx[tid]]);
-			sleep(1);
-			pthread_mutex_lock(estacao[estTx[tid]]);
+			printf("estacao %d tem o taxi %ld\n", cursor, tid);
+			pthread_mutex_unlock(&estacao[estTx[tid]]);
+			sleep(2);
+			pthread_mutex_lock(&estacao[estTx[tid]]);
 			nPorEstacao[estTx[tid]]--;
 		}else{
 			if(cursor == 4){
@@ -27,20 +28,18 @@ void *taxi(void *id)
 				cursor++;
 			}
 		}
+		pthread_mutex_unlock(&estacao[estTx[tid]]);
 	}
-	pthread_mutex_unlock(estacao[estTx[tid]]);
 }
 
 int main()
 {
 	pthread_t tx[10];
-	int *id[10], i;
-	int j;
-	for(j = 0; j < 5; j++){
-		pthread_mutex_t estacao[j] = PTHREAD_MUTEX_INITIALIZER;
-	}
+	int i;
+	long *id[10];
+	pthread_mutex_t estacao = PTHREAD_MUTEX_INITIALIZER;
 	for(i = 0; i < 10; i++){
-		id[i] = (int *) malloc(sizeof(int));
+		id[i] = (long *) malloc(sizeof(long));
 		*id[i] = i;
 		pthread_create(&tx[i], NULL, taxi, (void *) id[i]);
 	}
