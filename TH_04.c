@@ -1,13 +1,13 @@
+//header
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
-
+//variaveis globais
 int nPorEstacao[5] = {0, 0, 0, 0, 0}, estTx[10], cursor = 0;
 pthread_mutex_t estacao[5];
 
-void *taxi(void *id)
-{
+void *taxi(void *id){
 	long tid = *((long *)id);
 	while(1){
 		pthread_mutex_lock(&estacao[cursor]);
@@ -32,13 +32,11 @@ void *taxi(void *id)
 	}
 }
 
-int main()
-{
+int main(){
 	pthread_t tx[10];
-	int i;
 	long *id[10];
 	pthread_mutex_t estacao = PTHREAD_MUTEX_INITIALIZER;
-	for(i = 0; i < 10; i++){
+	for(int i = 0; i < 10; i++){
 		id[i] = (long *) malloc(sizeof(long));
 		*id[i] = i;
 		pthread_create(&tx[i], NULL, taxi, (void *) id[i]);
