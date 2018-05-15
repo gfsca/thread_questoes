@@ -8,9 +8,9 @@ pthread_mutex_t estacao[5];
 
 void *taxi(void *id)
 {
-	pthread_mutex_lock(&estacao[cursor]);
 	long tid = *((long *)id);
 	while(1){
+		pthread_mutex_lock(&estacao[cursor]);
 		if(nPorEstacao[cursor] < 2){
 			estTx[tid] = cursor;
 			nPorEstacao[cursor]++;
